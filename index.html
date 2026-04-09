@@ -1,0 +1,1023 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>英语语法初级 · English Grammar Basics</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Noto+Serif+SC:wght@400;600&family=Noto+Sans+SC:wght@400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<style>
+/* ══════════════════════════════════════════
+   SHARED TOKENS
+══════════════════════════════════════════ */
+:root {
+  --cream:  #f5f0e8;
+  --ink:    #1a1410;
+  --rust:   #c0440a;
+  --gold:   #b8860b;
+  --sage:   #5a7a5a;
+  --muted:  #8a7a6a;
+  --border: #d4c9b0;
+  --card:   #faf7f2;
+  --white:  #ffffff;
+  --blue:   #1a4a7a;
+  --blue-lt:#e8f0f8;
+  --green:  #2d6a4f;
+  --grn-lt: #e8f5ee;
+  --red-lt: #fdecea;
+  --gold-lt:#fdf5e0;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body { background:var(--cream); color:var(--ink); font-family:'Noto Serif SC',serif; min-height:100vh; }
+
+/* ══════════════════════════════════════════
+   PAGE ROUTING  —  only one .screen visible
+══════════════════════════════════════════ */
+.screen { display:none; }
+.screen.active { display:block; }
+
+/* ══════════════════════════════════════════
+   ① INDEX PAGE
+══════════════════════════════════════════ */
+/* header */
+.idx-header {
+  background:var(--ink); color:var(--cream);
+  padding:3rem 2rem 2.5rem; text-align:center; position:relative; overflow:hidden;
+}
+.idx-header::before {
+  content:''; position:absolute; inset:0;
+  background:
+    repeating-linear-gradient(90deg,transparent,transparent 60px,rgba(255,255,255,.02) 60px,rgba(255,255,255,.02) 61px),
+    repeating-linear-gradient(0deg, transparent,transparent 60px,rgba(255,255,255,.02) 60px,rgba(255,255,255,.02) 61px);
+}
+.idx-en  { font-family:'Playfair Display',serif; font-size:clamp(2rem,5vw,3.5rem); font-weight:700; position:relative; }
+.idx-en span { color:var(--rust); font-style:italic; }
+.idx-zh  { font-size:1.1rem; color:rgba(245,240,232,.6); margin-top:.5rem; letter-spacing:.3em; position:relative; }
+.idx-meta{ display:flex; justify-content:center; gap:2rem; margin-top:1.8rem; position:relative; }
+.meta-tag{ font-family:'JetBrains Mono',monospace; font-size:.75rem; color:rgba(245,240,232,.5); border:1px solid rgba(245,240,232,.15); padding:.3rem .8rem; border-radius:2px; letter-spacing:.1em; }
+
+/* container */
+.idx-body { max-width:1100px; margin:0 auto; padding:3rem 1.5rem; }
+
+/* progress */
+.prog-wrap { background:var(--card); border:1px solid var(--border); border-radius:4px; padding:1.5rem 2rem; margin-bottom:2.5rem; display:flex; align-items:center; gap:2rem; }
+.prog-info { flex:1; }
+.prog-lbl  { font-size:.8rem; color:var(--muted); letter-spacing:.1em; margin-bottom:.5rem; font-family:'JetBrains Mono',monospace; }
+.prog-bg   { height:4px; background:var(--border); border-radius:2px; overflow:hidden; }
+.prog-fill { height:100%; background:linear-gradient(90deg,var(--rust),var(--gold)); border-radius:2px; transition:width .5s ease; }
+.prog-num  { font-family:'Playfair Display',serif; font-size:2rem; color:var(--ink); font-weight:700; white-space:nowrap; }
+.prog-num span { font-size:1rem; color:var(--muted); font-family:'Noto Serif SC',serif; font-weight:400; }
+
+/* chapter nav */
+.ch-nav { display:flex; gap:.5rem; flex-wrap:wrap; margin-bottom:3rem; border-bottom:1px solid var(--border); padding-bottom:1.5rem; }
+.ch-btn  { font-family:'Noto Serif SC',serif; font-size:.82rem; padding:.4rem 1rem; border:1px solid var(--border); background:transparent; color:var(--muted); cursor:pointer; border-radius:2px; transition:all .2s; letter-spacing:.05em; }
+.ch-btn:hover,.ch-btn.active { background:var(--ink); color:var(--cream); border-color:var(--ink); }
+
+/* chapter sections */
+.ch-sec { display:none; }
+.ch-sec.visible { display:block; animation:fadeIn .3s ease; }
+@keyframes fadeIn { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:translateY(0)} }
+
+.ch-head  { display:flex; align-items:baseline; gap:1rem; margin-bottom:1.8rem; }
+.ch-no    { font-family:'JetBrains Mono',monospace; font-size:.75rem; color:var(--muted); letter-spacing:.15em; }
+.ch-title { font-family:'Playfair Display',serif; font-size:1.6rem; color:var(--ink); font-weight:700; }
+.ch-zh    { font-size:.9rem; color:var(--muted); margin-left:.3rem; font-family:'Noto Serif SC',serif; }
+
+/* card grid */
+.cards-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:1rem; }
+
+.gcard {
+  background:var(--card); border:1px solid var(--border); border-radius:4px;
+  padding:1.2rem 1.4rem; cursor:pointer; transition:all .2s;
+  position:relative; overflow:hidden; display:block;
+  text-decoration:none; color:inherit;
+}
+.gcard::before { content:''; position:absolute; left:0; top:0; bottom:0; width:3px; background:var(--border); transition:background .2s; }
+.gcard:hover   { border-color:var(--rust); transform:translateY(-2px); box-shadow:0 4px 16px rgba(26,20,16,.08); }
+.gcard:hover::before { background:var(--rust); }
+
+/* card WITH content */
+.gcard.live { background:#f0f6ff; border-color:#a8c4e0; }
+.gcard.live::before { background:var(--rust); }
+.gcard.live .cnum  { color:var(--rust); }
+.gcard.live:hover  { background:#e4eef8; border-color:var(--rust); box-shadow:0 4px 20px rgba(192,68,10,.13); transform:translateY(-3px); }
+
+.cnum    { font-family:'JetBrains Mono',monospace; font-size:.7rem; color:var(--muted); margin-bottom:.5rem; letter-spacing:.1em; }
+.cformula{ font-family:'JetBrains Mono',monospace; font-size:.85rem; color:var(--rust); font-weight:500; margin-bottom:.4rem; line-height:1.4; }
+.czh     { font-size:.78rem; color:var(--muted); line-height:1.5; }
+.cstatus { position:absolute; top:.8rem; right:.8rem; width:8px; height:8px; border-radius:50%; background:var(--border); }
+.cstatus.done { background:var(--sage); }
+.cgoto   { position:absolute; bottom:.85rem; right:1rem; font-size:.72rem; font-family:'JetBrains Mono',monospace; color:var(--rust); opacity:0; transform:translateX(-6px); transition:all .2s; }
+.gcard.live:hover .cgoto { opacity:1; transform:translateX(0); }
+
+/* index footer */
+.idx-footer { text-align:center; padding:2rem; border-top:1px solid var(--border); font-size:.78rem; color:var(--muted); letter-spacing:.1em; font-family:'JetBrains Mono',monospace; }
+
+/* ══════════════════════════════════════════
+   ② UNIT PAGE  (shared shell)
+══════════════════════════════════════════ */
+.unit-topbar {
+  background:var(--ink); color:#f7f4ee;
+  display:flex; align-items:center; justify-content:space-between;
+  padding:0 2rem; height:52px; position:sticky; top:0; z-index:100;
+}
+.utop-left { display:flex; align-items:center; gap:1rem; }
+.back-btn  {
+  display:flex; align-items:center; gap:.4rem;
+  font-family:'JetBrains Mono',monospace; font-size:.72rem;
+  color:rgba(255,255,255,.55); text-decoration:none;
+  border:1px solid rgba(255,255,255,.18); padding:.3rem .8rem;
+  border-radius:3px; transition:all .2s; letter-spacing:.08em; cursor:pointer;
+}
+.back-btn:hover { color:#fff; border-color:rgba(255,255,255,.45); }
+.utop-div { width:1px; height:20px; background:rgba(255,255,255,.15); }
+.unit-badge { font-family:'JetBrains Mono',monospace; font-size:.68rem; background:var(--rust); color:#fff; padding:.2rem .6rem; border-radius:2px; letter-spacing:.1em; }
+.utop-title { font-family:'Playfair Display',serif; font-size:1.05rem; font-weight:700; }
+.utop-title em { font-style:italic; color:#f0c090; }
+
+.tab-btns { display:flex; gap:.3rem; }
+.tab-btn  {
+  font-family:'Noto Sans SC',sans-serif; font-size:.8rem;
+  padding:.35rem 1.1rem; border:1px solid rgba(255,255,255,.18);
+  background:transparent; color:rgba(255,255,255,.55);
+  cursor:pointer; border-radius:3px; transition:all .2s;
+}
+.tab-btn.active,.tab-btn:hover { background:var(--rust); color:#fff; border-color:var(--rust); }
+
+/* unit sub-pages */
+.upage { display:none; max-width:820px; margin:0 auto; padding:2.5rem 1.5rem 5rem; }
+.upage.active { display:block; animation:fadeUp .3s ease; }
+@keyframes fadeUp { from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:translateY(0)} }
+
+/* ── Learn components ── */
+.sec-lbl  { display:flex; align-items:center; gap:.7rem; margin-bottom:1.1rem; }
+.sbadge   { font-family:'JetBrains Mono',monospace; font-size:.66rem; letter-spacing:.13em; padding:.2rem .65rem; border-radius:2px; color:#fff; background:var(--blue); }
+.sbadge.b { background:var(--ink); }
+.sbadge.c { background:var(--gold); }
+.stitle   { font-size:.88rem; color:var(--muted); }
+
+.lisa-card { background:var(--white); border:1px solid var(--border); border-radius:8px; padding:1.6rem; margin-bottom:2rem; box-shadow:0 2px 10px rgba(30,26,20,.06); }
+.lisa-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(182px,1fr)); gap:.6rem; margin-bottom:1rem; }
+.bubble    { background:var(--blue-lt); border:1px solid #b8d0e8; border-radius:5px; padding:.5rem .85rem; font-size:.86rem; color:var(--blue); line-height:1.4; }
+.bubble strong { color:var(--rust); }
+.lisa-name { text-align:center; font-family:'JetBrains Mono',monospace; font-size:.66rem; color:var(--muted); letter-spacing:.15em; }
+
+.gram-card { background:var(--white); border:1px solid var(--border); border-radius:8px; margin-bottom:2rem; overflow:hidden; box-shadow:0 2px 10px rgba(30,26,20,.06); }
+.gram-hd   { background:var(--ink); color:#fff; padding:.65rem 1.4rem; font-family:'Playfair Display',serif; font-size:.95rem; font-weight:700; display:flex; align-items:baseline; gap:1.2rem; }
+.gram-hd span { color:rgba(255,255,255,.42); font-family:'Noto Sans SC',sans-serif; font-size:.74rem; font-weight:400; }
+.gram-cols { display:grid; grid-template-columns:1fr 1fr; }
+@media(max-width:540px){ .gram-cols{grid-template-columns:1fr} }
+.gram-col  { padding:1rem 1.2rem; border-right:1px solid var(--border); }
+.gram-col:last-child { border-right:none; }
+.col-sub   { font-family:'JetBrains Mono',monospace; font-size:.66rem; letter-spacing:.12em; color:var(--muted); margin-bottom:.65rem; }
+.gt  { width:100%; border-collapse:collapse; font-size:.87rem; }
+.gt td { padding:.3rem .5rem; border-bottom:1px solid #f0ebe0; vertical-align:middle; }
+.gt tr:last-child td { border-bottom:none; }
+.gt .pr { color:var(--muted); font-size:.76rem; width:52px; }
+.gt .vb { font-family:'Playfair Display',serif; font-weight:700; color:var(--rust); }
+.gt .ct { font-family:'JetBrains Mono',monospace; font-size:.74rem; color:var(--blue); }
+.gt .nf { font-size:.78rem; }
+.gt .ns { font-family:'JetBrains Mono',monospace; font-size:.72rem; color:var(--rust); }
+
+.ex-card { background:var(--white); border:1px solid var(--border); border-radius:8px; padding:1.3rem 1.6rem; margin-bottom:2rem; box-shadow:0 2px 10px rgba(30,26,20,.06); }
+.exl     { list-style:none; }
+.exl li  { padding:.35rem 0 .35rem 1rem; border-bottom:1px dashed #ece7da; font-size:.9rem; position:relative; }
+.exl li::before { content:'□'; position:absolute; left:0; color:var(--border); font-size:.64rem; top:.5rem; }
+.exl li:last-child { border-bottom:none; }
+.exl strong { color:var(--rust); }
+.neg { background:#fdf0ea; border-radius:3px; }
+
+.special     { background:var(--gold-lt); border:1px solid #ddc870; border-left:4px solid var(--gold); border-radius:6px; padding:1.1rem 1.4rem; margin-bottom:2rem; }
+.sp-title    { font-family:'JetBrains Mono',monospace; font-size:.65rem; letter-spacing:.14em; color:var(--gold); margin-bottom:.7rem; }
+.eq-row      { display:flex; flex-wrap:wrap; gap:1.2rem; font-size:.88rem; margin-bottom:.8rem; }
+.eq          { display:flex; align-items:center; gap:.4rem; }
+.eq .fr { color:var(--muted); font-family:'Playfair Display',serif; }
+.eq .ar { color:var(--border); }
+.eq .to { font-family:'Playfair Display',serif; font-weight:700; color:var(--rust); }
+.sp-ex   { list-style:none; }
+.sp-ex li{ font-size:.86rem; padding:.2rem 0; }
+.sp-ex strong { color:var(--rust); }
+
+.related { font-family:'JetBrains Mono',monospace; font-size:.68rem; color:var(--muted); border-top:1px solid var(--border); padding-top:.9rem; letter-spacing:.08em; }
+
+/* ── Exercise components ── */
+.exhdr   { display:flex; align-items:center; justify-content:space-between; margin-bottom:1.5rem; }
+.extitle { font-family:'Playfair Display',serif; font-size:1.25rem; font-weight:700; }
+.scorebox{ font-family:'JetBrains Mono',monospace; font-size:.78rem; background:var(--white); border:1px solid var(--border); border-radius:4px; padding:.4rem .9rem; color:var(--muted); }
+.scorebox .sn { color:var(--rust); font-size:1rem; }
+
+.exblock { background:var(--white); border:1px solid var(--border); border-radius:8px; padding:1.2rem 1.5rem; margin-bottom:1.2rem; box-shadow:0 2px 8px rgba(30,26,20,.05); }
+.exb-hd  { display:flex; align-items:baseline; gap:.7rem; margin-bottom:.9rem; padding-bottom:.7rem; border-bottom:1px solid var(--border); }
+.exn     { font-family:'JetBrains Mono',monospace; font-size:.7rem; background:var(--rust); color:#fff; padding:.12rem .55rem; border-radius:2px; letter-spacing:.1em; }
+.exinstr { font-size:.84rem; color:var(--muted); }
+.exinstr strong { color:var(--ink); }
+
+.exi    { display:flex; align-items:baseline; gap:.4rem; flex-wrap:wrap; padding:.4rem 0; border-bottom:1px dashed #ece7da; font-size:.88rem; }
+.exi:last-child { border-bottom:none; }
+.ino    { font-family:'JetBrains Mono',monospace; font-size:.68rem; color:var(--muted); min-width:1.3rem; }
+
+.bl {
+  display:inline-block; min-width:90px;
+  border:none; border-bottom:2px solid var(--border);
+  background:transparent; font-family:'Playfair Display',serif;
+  font-size:.88rem; color:var(--rust); padding:.08rem .3rem;
+  outline:none; text-align:center; transition:border-color .2s, background .2s;
+}
+.bl:focus { border-color:var(--blue); }
+.bl.ok  { border-color:var(--green); background:var(--grn-lt); color:var(--green); }
+.bl.bad { border-color:var(--rust);  background:var(--red-lt);  color:var(--rust); }
+.bl-sm  { min-width:65px; }
+.bl-lg  { min-width:150px; }
+
+/* per-item check button */
+.chk-btn {
+  font-size:.7rem; font-family:'JetBrains Mono',monospace;
+  background:transparent; border:1px solid var(--border);
+  color:var(--muted); border-radius:3px; padding:.15rem .55rem;
+  cursor:pointer; transition:all .15s; white-space:nowrap; margin-left:.3rem; flex-shrink:0;
+}
+.chk-btn:hover { border-color:var(--rust); color:var(--rust); }
+
+/* per-item feedback */
+.fb { display:none; font-size:.9rem; margin-left:.3rem; vertical-align:middle; white-space:nowrap; align-items:center; gap:.25rem; }
+.fb.show { display:inline-flex; }
+.fb .ans-txt { font-family:'JetBrains Mono',monospace; font-size:.68rem; color:var(--rust); }
+
+.chip   { background:var(--blue-lt); border:1px solid #b8d0e8; border-radius:4px; padding:.18rem .6rem; font-size:.78rem; color:var(--blue); }
+.chip.s { background:var(--gold-lt); border-color:#ddc870; color:var(--gold); text-decoration:line-through; }
+
+.ori  { display:flex; align-items:center; gap:.4rem; flex-wrap:wrap; padding:.4rem 0; border-bottom:1px dashed #ece7da; font-size:.86rem; }
+.ori:last-child { border-bottom:none; }
+
+.self-grid { display:grid; grid-template-columns:1fr 1fr; gap:.8rem; }
+@media(max-width:520px){ .self-grid{grid-template-columns:1fr} }
+.self-lbl  { font-size:.78rem; color:var(--muted); margin-bottom:.25rem; }
+.self-ta   { width:100%; border:1px solid var(--border); border-radius:4px; padding:.5rem; font-family:'Playfair Display',serif; font-size:.85rem; resize:vertical; min-height:50px; background:var(--cream); color:var(--ink); outline:none; transition:border-color .2s; }
+.self-ta:focus { border-color:var(--blue); }
+
+.save-btn  { background:var(--blue); color:#fff; border:none; padding:.45rem 1.3rem; border-radius:3px; cursor:pointer; font-size:.8rem; font-family:'Noto Sans SC',sans-serif; margin-top:.6rem; }
+.savedmsg  { font-size:.74rem; color:var(--green); display:none; margin-left:.5rem; }
+.savedmsg.show { display:inline; }
+
+.check-btn { background:var(--rust); color:#fff; border:none; padding:.7rem 2.2rem; font-family:'Noto Sans SC',sans-serif; font-size:.88rem; border-radius:4px; cursor:pointer; margin-top:.8rem; transition:background .2s; }
+.check-btn:hover { background:#a03508; }
+.reset-btn { background:transparent; color:var(--muted); border:1px solid var(--border); padding:.7rem 1.6rem; font-family:'Noto Sans SC',sans-serif; font-size:.88rem; border-radius:4px; cursor:pointer; margin-top:.8rem; margin-left:.6rem; transition:all .2s; }
+.reset-btn:hover { border-color:var(--ink); color:var(--ink); }
+</style>
+</head>
+<body>
+
+<!-- ╔══════════════════════════════════════════╗
+     ║  SCREEN 1 — INDEX                       ║
+     ╚══════════════════════════════════════════╝ -->
+<div class="screen active" id="screen-index">
+
+  <header class="idx-header">
+    <div class="idx-en">English <span>Grammar</span> Basics</div>
+    <div class="idx-zh">英 语 语 法 · 初 级</div>
+    <div class="idx-meta">
+      <div class="meta-tag">115 UNITS</div>
+      <div class="meta-tag">BEGINNER LEVEL</div>
+      <div class="meta-tag">A1 → B1</div>
+    </div>
+  </header>
+
+  <div class="idx-body">
+
+    <!-- Progress -->
+    <div class="prog-wrap">
+      <div class="prog-info">
+        <div class="prog-lbl">LEARNING PROGRESS · 学习进度</div>
+        <div class="prog-bg"><div class="prog-fill" id="progFill" style="width:0%"></div></div>
+      </div>
+      <div class="prog-num"><span id="doneCount">0</span> / 115 <span>已完成</span></div>
+    </div>
+
+    <!-- Chapter nav -->
+    <nav class="ch-nav">
+      <button class="ch-btn active" onclick="showChapter('present')">现在时</button>
+      <button class="ch-btn" onclick="showChapter('past')">过去时</button>
+      <button class="ch-btn" onclick="showChapter('perfect')">现在完成时</button>
+      <button class="ch-btn" onclick="showChapter('passive')">被动语态</button>
+      <button class="ch-btn" onclick="showChapter('verbforms')">动词形式</button>
+      <button class="ch-btn" onclick="showChapter('future')">将来时</button>
+      <button class="ch-btn" onclick="showChapter('modal')">情态动词</button>
+      <button class="ch-btn" onclick="showChapter('thereit')">there与it</button>
+      <button class="ch-btn" onclick="showChapter('auxiliary')">助动词</button>
+      <button class="ch-btn" onclick="showChapter('questions')">疑问句</button>
+      <button class="ch-btn" onclick="showChapter('indirect')">间接引语</button>
+      <button class="ch-btn" onclick="showChapter('infinitive')">动词ing与不定式</button>
+      <button class="ch-btn" onclick="showChapter('goget')">go/get/do/make/have</button>
+      <button class="ch-btn" onclick="showChapter('pronouns')">人称代词与所有格</button>
+      <button class="ch-btn" onclick="showChapter('articles')">a/an与the</button>
+      <button class="ch-btn" onclick="showChapter('determiners')">限定词与代词</button>
+      <button class="ch-btn" onclick="showChapter('adjadv')">形容词与副词</button>
+      <button class="ch-btn" onclick="showChapter('wordorder')">词序</button>
+      <button class="ch-btn" onclick="showChapter('conjunctions')">连词与从句</button>
+      <button class="ch-btn" onclick="showChapter('prepositions')">介词</button>
+      <button class="ch-btn" onclick="showChapter('phrasal')">短语动词</button>
+    </nav>
+
+    <!-- ── Chapter 01 现在时 ── -->
+    <section class="ch-sec visible" id="ch-present">
+      <div class="ch-head"><span class="ch-no">CHAPTER 01</span><div><span class="ch-title">Present Tense</span><span class="ch-zh">现在时</span></div></div>
+      <div class="cards-grid">
+
+        <!-- Unit 1 — live content -->
+        <div class="gcard live" onclick="openUnit('u1')">
+          <div class="cnum">UNIT 01</div>
+          <div class="cformula">am / is / are</div>
+          <div class="czh">be动词的现在时形式</div>
+          <div class="cgoto">进入学习 →</div>
+        </div>
+
+        <div class="gcard" data-id="2"><div class="cnum">UNIT 02</div><div class="cformula">am / is / are ?</div><div class="czh">be动词的疑问句</div><div class="cstatus"></div></div>
+        <div class="gcard" data-id="3"><div class="cnum">UNIT 03</div><div class="cformula">I am doing</div><div class="czh">现在进行时</div><div class="cstatus"></div></div>
+        <div class="gcard" data-id="4"><div class="cnum">UNIT 04</div><div class="cformula">Are you doing?</div><div class="czh">现在进行时的疑问式</div><div class="cstatus"></div></div>
+        <div class="gcard" data-id="5"><div class="cnum">UNIT 05</div><div class="cformula">I do / work / like</div><div class="czh">一般现在时</div><div class="cstatus"></div></div>
+        <div class="gcard" data-id="6"><div class="cnum">UNIT 06</div><div class="cformula">I don't …</div><div class="czh">一般现在时的否定式</div><div class="cstatus"></div></div>
+        <div class="gcard" data-id="7"><div class="cnum">UNIT 07</div><div class="cformula">Do you …?</div><div class="czh">一般现在时的疑问式</div><div class="cstatus"></div></div>
+        <div class="gcard" data-id="8"><div class="cnum">UNIT 08</div><div class="cformula">I am doing vs I do</div><div class="czh">进行时与一般现在时比较</div><div class="cstatus"></div></div>
+        <div class="gcard" data-id="9"><div class="cnum">UNIT 09</div><div class="cformula">I have … / I've got …</div><div class="czh">have与have got</div><div class="cstatus"></div></div>
+      </div>
+    </section>
+
+    <!-- ── Chapter 02 过去时 ── -->
+    <section class="ch-sec" id="ch-past">
+      <div class="ch-head"><span class="ch-no">CHAPTER 02</span><div><span class="ch-title">Past Tense</span><span class="ch-zh">过去时</span></div></div>
+      <div class="cards-grid">
+        <div class="gcard" data-id="10"><div class="cnum">UNIT 10</div><div class="cformula">was / were</div><div class="czh">be动词的过去时</div><div class="cstatus"></div></div>
+        <div class="gcard" data-id="11"><div class="cnum">UNIT 11</div><div class="cformula">worked / got / went</div><div class="czh">一般过去时</div><div class="cstatus"></div></div>
+        <div class="gcard" data-id="12"><div class="cnum">UNIT 12</div><div class="cformula">I didn't … / Did you …?</div><div class="czh">一般过去时的否定与疑问</div><div class="cstatus"></div></div>
+        <div class="gcard" data-id="13"><div class="cnum">UNIT 13</div><div class="cformula">I was doing</div><div class="czh">过去进行时</div><div class="cstatus"></div></div>
+        <div class="gcard" data-id="14"><div class="cnum">UNIT 14</div><div class="cformula">I was doing vs I did</div><div class="czh">过去进行时与一般过去时比较</div><div class="cstatus"></div></div>
+      </div>
+    </section>
+
+    <!-- ── Chapter 03 现在完成时 ── -->
+    <section class="ch-sec" id="ch-perfect">
+      <div class="ch-head"><span class="ch-no">CHAPTER 03</span><div><span class="ch-title">Present Perfect</span><span class="ch-zh">现在完成时</span></div></div>
+      <div class="cards-grid">
+        <div class="gcard" data-id="15"><div class="cnum">UNIT 15</div><div class="cformula">I have done</div><div class="czh">现在完成时（1）</div><div class="cstatus"></div></div>
+        <div class="gcard" data-id="16"><div class="cnum">UNIT 16</div><div class="cformula">just / already / yet</div><div class="czh">现在完成时（2）</div><div class="cstatus"></div></div>
+        <div class="gcard" data-id="17"><div class="cnum">UNIT 17</div><div class="cformula">Have you ever …?</div><div class="czh">现在完成时（3）</div><div class="cstatus"></div></div>
+        <div class="gcard" data-id="18"><div class="cnum">UNIT 18</div><div class="cformula">How long have you …?</div><div class="czh">现在完成时（4）</div><div class="cstatus"></div></div>
+        <div class="gcard" data-id="19"><div class="cnum">UNIT 19</div><div class="cformula">for / since / ago</div><div class="czh">时间介词的区分</div><div class="cstatus"></div></div>
+        <div class="gcard" data-id="20"><div class="cnum">UNIT 20</div><div class="cformula">I have done vs I did</div><div class="czh">现在完成时与一般过去时比较</div><div class="cstatus"></div></div>
+      </div>
+    </section>
+
+    <!-- Chapters 04-21 (no content yet, condensed) -->
+    <section class="ch-sec" id="ch-passive"><div class="ch-head"><span class="ch-no">CHAPTER 04</span><div><span class="ch-title">Passive Voice</span><span class="ch-zh">被动语态</span></div></div><div class="cards-grid"><div class="gcard" data-id="21"><div class="cnum">UNIT 21</div><div class="cformula">is done / was done</div><div class="czh">被动语态（1）</div><div class="cstatus"></div></div><div class="gcard" data-id="22"><div class="cnum">UNIT 22</div><div class="cformula">is being done / has been done</div><div class="czh">被动语态（2）</div><div class="cstatus"></div></div></div></section>
+    <section class="ch-sec" id="ch-verbforms"><div class="ch-head"><span class="ch-no">CHAPTER 05</span><div><span class="ch-title">Verb Forms</span><span class="ch-zh">动词形式</span></div></div><div class="cards-grid"><div class="gcard" data-id="23"><div class="cnum">UNIT 23</div><div class="cformula">be / have / do</div><div class="czh">现在时与过去时中的助动词</div><div class="cstatus"></div></div><div class="gcard" data-id="24"><div class="cnum">UNIT 24</div><div class="cformula">Regular &amp; Irregular Verbs</div><div class="czh">规则动词与不规则动词</div><div class="cstatus"></div></div></div></section>
+    <section class="ch-sec" id="ch-future"><div class="ch-head"><span class="ch-no">CHAPTER 06</span><div><span class="ch-title">Future Tense</span><span class="ch-zh">将来时</span></div></div><div class="cards-grid"><div class="gcard" data-id="25"><div class="cnum">UNIT 25</div><div class="cformula">What are you doing tomorrow?</div><div class="czh">用现在进行时表将来</div><div class="cstatus"></div></div><div class="gcard" data-id="26"><div class="cnum">UNIT 26</div><div class="cformula">I'm going to …</div><div class="czh">be going to</div><div class="cstatus"></div></div><div class="gcard" data-id="27"><div class="cnum">UNIT 27</div><div class="cformula">will / shall (1)</div><div class="czh">will与shall（1）</div><div class="cstatus"></div></div><div class="gcard" data-id="28"><div class="cnum">UNIT 28</div><div class="cformula">will / shall (2)</div><div class="czh">will与shall（2）</div><div class="cstatus"></div></div></div></section>
+    <section class="ch-sec" id="ch-modal"><div class="ch-head"><span class="ch-no">CHAPTER 07</span><div><span class="ch-title">Modals &amp; Imperatives</span><span class="ch-zh">情态动词，祈使语气</span></div></div><div class="cards-grid"><div class="gcard" data-id="29"><div class="cnum">UNIT 29</div><div class="cformula">might</div><div class="czh">might的用法</div><div class="cstatus"></div></div><div class="gcard" data-id="30"><div class="cnum">UNIT 30</div><div class="cformula">can vs could</div><div class="czh">can与could比较</div><div class="cstatus"></div></div><div class="gcard" data-id="31"><div class="cnum">UNIT 31</div><div class="cformula">must / mustn't / don't need to</div><div class="czh">must的用法</div><div class="cstatus"></div></div><div class="gcard" data-id="32"><div class="cnum">UNIT 32</div><div class="cformula">should</div><div class="czh">should的用法</div><div class="cstatus"></div></div><div class="gcard" data-id="33"><div class="cnum">UNIT 33</div><div class="cformula">I have to …</div><div class="czh">have to的用法</div><div class="cstatus"></div></div><div class="gcard" data-id="34"><div class="cnum">UNIT 34</div><div class="cformula">Would you like …? / I'd like …</div><div class="czh">would like的用法</div><div class="cstatus"></div></div><div class="gcard" data-id="35"><div class="cnum">UNIT 35</div><div class="cformula">Do this! / Don't! / Let's …</div><div class="czh">祈使句与let's</div><div class="cstatus"></div></div><div class="gcard" data-id="36"><div class="cnum">UNIT 36</div><div class="cformula">I used to …</div><div class="czh">used to的用法</div><div class="cstatus"></div></div></div></section>
+    <section class="ch-sec" id="ch-thereit"><div class="ch-head"><span class="ch-no">CHAPTER 08</span><div><span class="ch-title">There &amp; It</span><span class="ch-zh">there与it</span></div></div><div class="cards-grid"><div class="gcard" data-id="37"><div class="cnum">UNIT 37</div><div class="cformula">there is / there are</div><div class="czh">there is/are的用法</div><div class="cstatus"></div></div><div class="gcard" data-id="38"><div class="cnum">UNIT 38</div><div class="cformula">there was/were / there has been</div><div class="czh">there的过去与完成时</div><div class="cstatus"></div></div><div class="gcard" data-id="39"><div class="cnum">UNIT 39</div><div class="cformula">It …</div><div class="czh">it的用法</div><div class="cstatus"></div></div></div></section>
+    <section class="ch-sec" id="ch-auxiliary"><div class="ch-head"><span class="ch-no">CHAPTER 09</span><div><span class="ch-title">Auxiliary Verbs</span><span class="ch-zh">助动词</span></div></div><div class="cards-grid"><div class="gcard" data-id="40"><div class="cnum">UNIT 40</div><div class="cformula">I am / I don't</div><div class="czh">助动词的基本用法</div><div class="cstatus"></div></div><div class="gcard" data-id="41"><div class="cnum">UNIT 41</div><div class="cformula">have you? / are you? / don't you?</div><div class="czh">附加疑问句</div><div class="cstatus"></div></div><div class="gcard" data-id="42"><div class="cnum">UNIT 42</div><div class="cformula">too / either / so am I / neither do I</div><div class="czh">too与either，so与neither</div><div class="cstatus"></div></div><div class="gcard" data-id="43"><div class="cnum">UNIT 43</div><div class="cformula">isn't / haven't / don't</div><div class="czh">否定句的缩略形式</div><div class="cstatus"></div></div></div></section>
+    <section class="ch-sec" id="ch-questions"><div class="ch-head"><span class="ch-no">CHAPTER 10</span><div><span class="ch-title">Questions</span><span class="ch-zh">疑问句</span></div></div><div class="cards-grid"><div class="gcard" data-id="44"><div class="cnum">UNIT 44</div><div class="cformula">Is it …? / Have you …? / Do they …?</div><div class="czh">疑问句（1）</div><div class="cstatus"></div></div><div class="gcard" data-id="45"><div class="cnum">UNIT 45</div><div class="cformula">Who saw you? / Who did you see?</div><div class="czh">疑问句（2）</div><div class="cstatus"></div></div><div class="gcard" data-id="46"><div class="cnum">UNIT 46</div><div class="cformula">Who is she talking to? / What is it like?</div><div class="czh">疑问句（3）</div><div class="cstatus"></div></div><div class="gcard" data-id="47"><div class="cnum">UNIT 47</div><div class="cformula">What …? / Which …? / How …?</div><div class="czh">疑问句（4）</div><div class="cstatus"></div></div><div class="gcard" data-id="48"><div class="cnum">UNIT 48</div><div class="cformula">How long does it take …?</div><div class="czh">how long的疑问句</div><div class="cstatus"></div></div><div class="gcard" data-id="49"><div class="cnum">UNIT 49</div><div class="cformula">Do you know where …?</div><div class="czh">间接疑问句</div><div class="cstatus"></div></div></div></section>
+    <section class="ch-sec" id="ch-indirect"><div class="ch-head"><span class="ch-no">CHAPTER 11</span><div><span class="ch-title">Reported Speech</span><span class="ch-zh">间接引语</span></div></div><div class="cards-grid"><div class="gcard" data-id="50"><div class="cnum">UNIT 50</div><div class="cformula">She said that … / He told me that …</div><div class="czh">间接引语的基本用法</div><div class="cstatus"></div></div></div></section>
+    <section class="ch-sec" id="ch-infinitive"><div class="ch-head"><span class="ch-no">CHAPTER 12</span><div><span class="ch-title">Infinitive &amp; -ing</span><span class="ch-zh">动词ing形式与不定式</span></div></div><div class="cards-grid"><div class="gcard" data-id="51"><div class="cnum">UNIT 51</div><div class="cformula">work / working / go / going</div><div class="czh">动词的基本形式</div><div class="cstatus"></div></div><div class="gcard" data-id="52"><div class="cnum">UNIT 52</div><div class="cformula">want to do vs enjoy doing</div><div class="czh">不定式与ing形式比较</div><div class="cstatus"></div></div><div class="gcard" data-id="53"><div class="cnum">UNIT 53</div><div class="cformula">I want you to … / I told you to …</div><div class="czh">want/tell sb to do</div><div class="cstatus"></div></div><div class="gcard" data-id="54"><div class="cnum">UNIT 54</div><div class="cformula">I went to the shop to …</div><div class="czh">不定式表目的</div><div class="cstatus"></div></div></div></section>
+    <section class="ch-sec" id="ch-goget"><div class="ch-head"><span class="ch-no">CHAPTER 13</span><div><span class="ch-title">go / get / do / make / have</span><span class="ch-zh">常用动词</span></div></div><div class="cards-grid"><div class="gcard" data-id="55"><div class="cnum">UNIT 55</div><div class="cformula">go to / go on / go for / go -ing</div><div class="czh">go的常用搭配</div><div class="cstatus"></div></div><div class="gcard" data-id="56"><div class="cnum">UNIT 56</div><div class="cformula">get</div><div class="czh">get的用法</div><div class="cstatus"></div></div><div class="gcard" data-id="57"><div class="cnum">UNIT 57</div><div class="cformula">do vs make</div><div class="czh">do与make比较</div><div class="cstatus"></div></div><div class="gcard" data-id="58"><div class="cnum">UNIT 58</div><div class="cformula">have</div><div class="czh">have的用法</div><div class="cstatus"></div></div></div></section>
+    <section class="ch-sec" id="ch-pronouns"><div class="ch-head"><span class="ch-no">CHAPTER 14</span><div><span class="ch-title">Pronouns &amp; Possessives</span><span class="ch-zh">人称代词与所有格</span></div></div><div class="cards-grid"><div class="gcard" data-id="59"><div class="cnum">UNIT 59</div><div class="cformula">I / me / he / him / they / them</div><div class="czh">人称代词（主格与宾格）</div><div class="cstatus"></div></div><div class="gcard" data-id="60"><div class="cnum">UNIT 60</div><div class="cformula">my / his / their</div><div class="czh">形容词性物主代词</div><div class="cstatus"></div></div><div class="gcard" data-id="61"><div class="cnum">UNIT 61</div><div class="cformula">Whose is this? It's mine / yours / hers</div><div class="czh">名词性物主代词</div><div class="cstatus"></div></div><div class="gcard" data-id="62"><div class="cnum">UNIT 62</div><div class="cformula">I / me / my / mine</div><div class="czh">代词的四种形式</div><div class="cstatus"></div></div><div class="gcard" data-id="63"><div class="cnum">UNIT 63</div><div class="cformula">myself / yourself / themselves</div><div class="czh">反身代词</div><div class="cstatus"></div></div><div class="gcard" data-id="64"><div class="cnum">UNIT 64</div><div class="cformula">Kate's camera / my brother's car</div><div class="czh">名词所有格</div><div class="cstatus"></div></div></div></section>
+    <section class="ch-sec" id="ch-articles"><div class="ch-head"><span class="ch-no">CHAPTER 15</span><div><span class="ch-title">Articles &amp; Nouns</span><span class="ch-zh">a/an 与 the，名词</span></div></div><div class="cards-grid"><div class="gcard" data-id="65"><div class="cnum">UNIT 65</div><div class="cformula">a / an</div><div class="czh">不定冠词</div><div class="cstatus"></div></div><div class="gcard" data-id="66"><div class="cnum">UNIT 66</div><div class="cformula">train(s) / bus(es)</div><div class="czh">名词单数与复数</div><div class="cstatus"></div></div><div class="gcard" data-id="67"><div class="cnum">UNIT 67</div><div class="cformula">a bottle / some water</div><div class="czh">可数名词与不可数名词（1）</div><div class="cstatus"></div></div><div class="gcard" data-id="68"><div class="cnum">UNIT 68</div><div class="cformula">a cake / some cake / some cakes</div><div class="czh">可数名词与不可数名词（2）</div><div class="cstatus"></div></div><div class="gcard" data-id="69"><div class="cnum">UNIT 69</div><div class="cformula">a/an vs the</div><div class="czh">不定冠词与定冠词比较</div><div class="cstatus"></div></div><div class="gcard" data-id="70"><div class="cnum">UNIT 70</div><div class="cformula">the …</div><div class="czh">定冠词的用法</div><div class="cstatus"></div></div><div class="gcard" data-id="71"><div class="cnum">UNIT 71</div><div class="cformula">go to work / go home / go to the cinema</div><div class="czh">冠词的特殊省略与保留</div><div class="cstatus"></div></div><div class="gcard" data-id="72"><div class="cnum">UNIT 72</div><div class="cformula">I like music / I hate exams</div><div class="czh">泛指的用法</div><div class="cstatus"></div></div><div class="gcard" data-id="73"><div class="cnum">UNIT 73</div><div class="cformula">the … (地名)</div><div class="czh">地名与冠词</div><div class="cstatus"></div></div></div></section>
+    <section class="ch-sec" id="ch-determiners"><div class="ch-head"><span class="ch-no">CHAPTER 16</span><div><span class="ch-title">Determiners &amp; Pronouns</span><span class="ch-zh">限定词与代词</span></div></div><div class="cards-grid"><div class="gcard" data-id="74"><div class="cnum">UNIT 74</div><div class="cformula">this / that / these / those</div><div class="czh">指示代词</div><div class="cstatus"></div></div><div class="gcard" data-id="75"><div class="cnum">UNIT 75</div><div class="cformula">one / ones</div><div class="czh">one/ones的用法</div><div class="cstatus"></div></div><div class="gcard" data-id="76"><div class="cnum">UNIT 76</div><div class="cformula">some vs any</div><div class="czh">some与any比较</div><div class="cstatus"></div></div><div class="gcard" data-id="77"><div class="cnum">UNIT 77</div><div class="cformula">not + any / no / none</div><div class="czh">否定代词</div><div class="cstatus"></div></div><div class="gcard" data-id="78"><div class="cnum">UNIT 78</div><div class="cformula">nobody / nothing / nowhere</div><div class="czh">nobody/nothing/nowhere</div><div class="cstatus"></div></div><div class="gcard" data-id="79"><div class="cnum">UNIT 79</div><div class="cformula">somebody / anything / nowhere</div><div class="czh">不定代词</div><div class="cstatus"></div></div><div class="gcard" data-id="80"><div class="cnum">UNIT 80</div><div class="cformula">every vs all</div><div class="czh">every与all比较</div><div class="cstatus"></div></div><div class="gcard" data-id="81"><div class="cnum">UNIT 81</div><div class="cformula">all / most / some / any / no / none</div><div class="czh">数量词的用法</div><div class="cstatus"></div></div><div class="gcard" data-id="82"><div class="cnum">UNIT 82</div><div class="cformula">both / either / neither</div><div class="czh">both/either/neither</div><div class="cstatus"></div></div><div class="gcard" data-id="83"><div class="cnum">UNIT 83</div><div class="cformula">a lot / much / many</div><div class="czh">a lot/much/many</div><div class="cstatus"></div></div><div class="gcard" data-id="84"><div class="cnum">UNIT 84</div><div class="cformula">(a) little / (a) few</div><div class="czh">little与few的用法</div><div class="cstatus"></div></div></div></section>
+    <section class="ch-sec" id="ch-adjadv"><div class="ch-head"><span class="ch-no">CHAPTER 17</span><div><span class="ch-title">Adjectives &amp; Adverbs</span><span class="ch-zh">形容词与副词</span></div></div><div class="cards-grid"><div class="gcard" data-id="85"><div class="cnum">UNIT 85</div><div class="cformula">old / nice / interesting</div><div class="czh">形容词的用法</div><div class="cstatus"></div></div><div class="gcard" data-id="86"><div class="cnum">UNIT 86</div><div class="cformula">quickly / badly / suddenly</div><div class="czh">副词的用法</div><div class="cstatus"></div></div><div class="gcard" data-id="87"><div class="cnum">UNIT 87</div><div class="cformula">old → older / expensive → more expensive</div><div class="czh">形容词比较级</div><div class="cstatus"></div></div><div class="gcard" data-id="88"><div class="cnum">UNIT 88</div><div class="cformula">older than … / more expensive than …</div><div class="czh">比较级 + than</div><div class="cstatus"></div></div><div class="gcard" data-id="89"><div class="cnum">UNIT 89</div><div class="cformula">not as … as</div><div class="czh">as…as的用法</div><div class="cstatus"></div></div><div class="gcard" data-id="90"><div class="cnum">UNIT 90</div><div class="cformula">the oldest / the most expensive</div><div class="czh">形容词最高级</div><div class="cstatus"></div></div><div class="gcard" data-id="91"><div class="cnum">UNIT 91</div><div class="cformula">enough</div><div class="czh">enough的用法</div><div class="cstatus"></div></div><div class="gcard" data-id="92"><div class="cnum">UNIT 92</div><div class="cformula">too</div><div class="czh">too的用法</div><div class="cstatus"></div></div></div></section>
+    <section class="ch-sec" id="ch-wordorder"><div class="ch-head"><span class="ch-no">CHAPTER 18</span><div><span class="ch-title">Word Order</span><span class="ch-zh">词序</span></div></div><div class="cards-grid"><div class="gcard" data-id="93"><div class="cnum">UNIT 93</div><div class="cformula">He speaks English very well.</div><div class="czh">词序（1）</div><div class="cstatus"></div></div><div class="gcard" data-id="94"><div class="cnum">UNIT 94</div><div class="cformula">always / usually / often</div><div class="czh">频率副词的词序</div><div class="cstatus"></div></div><div class="gcard" data-id="95"><div class="cnum">UNIT 95</div><div class="cformula">still / yet / already</div><div class="czh">still/yet/already</div><div class="cstatus"></div></div><div class="gcard" data-id="96"><div class="cnum">UNIT 96</div><div class="cformula">Give me that book! / Give it to me!</div><div class="czh">双宾语词序</div><div class="cstatus"></div></div></div></section>
+    <section class="ch-sec" id="ch-conjunctions"><div class="ch-head"><span class="ch-no">CHAPTER 19</span><div><span class="ch-title">Conjunctions &amp; Clauses</span><span class="ch-zh">连词与从句</span></div></div><div class="cards-grid"><div class="gcard" data-id="97"><div class="cnum">UNIT 97</div><div class="cformula">and / but / or / so / because</div><div class="czh">并列连词</div><div class="cstatus"></div></div><div class="gcard" data-id="98"><div class="cnum">UNIT 98</div><div class="cformula">when …</div><div class="czh">when引导的时间从句</div><div class="cstatus"></div></div><div class="gcard" data-id="99"><div class="cnum">UNIT 99</div><div class="cformula">if we go … / if you see …</div><div class="czh">条件状语从句（真实条件）</div><div class="cstatus"></div></div><div class="gcard" data-id="100"><div class="cnum">UNIT 100</div><div class="cformula">if I had … / if we went …</div><div class="czh">条件状语从句（虚拟语气）</div><div class="cstatus"></div></div><div class="gcard" data-id="101"><div class="cnum">UNIT 101</div><div class="cformula">a person who … / a thing that/which …</div><div class="czh">定语从句（1）</div><div class="cstatus"></div></div><div class="gcard" data-id="102"><div class="cnum">UNIT 102</div><div class="cformula">the people we met / the hotel you stayed at</div><div class="czh">定语从句（2）</div><div class="cstatus"></div></div></div></section>
+    <section class="ch-sec" id="ch-prepositions"><div class="ch-head"><span class="ch-no">CHAPTER 20</span><div><span class="ch-title">Prepositions</span><span class="ch-zh">介词</span></div></div><div class="cards-grid"><div class="gcard" data-id="103"><div class="cnum">UNIT 103</div><div class="cformula">at 8 o'clock / on Monday / in April</div><div class="czh">时间介词 at/on/in</div><div class="cstatus"></div></div><div class="gcard" data-id="104"><div class="cnum">UNIT 104</div><div class="cformula">from … to / until / since / for</div><div class="czh">表示时间段的介词</div><div class="cstatus"></div></div><div class="gcard" data-id="105"><div class="cnum">UNIT 105</div><div class="cformula">before / after / during / while</div><div class="czh">before/after/during/while</div><div class="cstatus"></div></div><div class="gcard" data-id="106"><div class="cnum">UNIT 106</div><div class="cformula">in / at / on (地点1)</div><div class="czh">地点介词（1）</div><div class="cstatus"></div></div><div class="gcard" data-id="107"><div class="cnum">UNIT 107</div><div class="cformula">in / at / on (地点2)</div><div class="czh">地点介词（2）</div><div class="cstatus"></div></div><div class="gcard" data-id="108"><div class="cnum">UNIT 108</div><div class="cformula">to / in / at (地点3)</div><div class="czh">地点介词（3）</div><div class="cstatus"></div></div><div class="gcard" data-id="109"><div class="cnum">UNIT 109</div><div class="cformula">under / behind / opposite</div><div class="czh">位置介词</div><div class="cstatus"></div></div><div class="gcard" data-id="110"><div class="cnum">UNIT 110</div><div class="cformula">up / over / through</div><div class="czh">方向介词</div><div class="cstatus"></div></div><div class="gcard" data-id="111"><div class="cnum">UNIT 111</div><div class="cformula">on / at / by / with / about</div><div class="czh">常用介词</div><div class="cstatus"></div></div><div class="gcard" data-id="112"><div class="cnum">UNIT 112</div><div class="cformula">afraid of / good at … + -ing</div><div class="czh">形容词+介词的搭配</div><div class="cstatus"></div></div><div class="gcard" data-id="113"><div class="cnum">UNIT 113</div><div class="cformula">listen to … / look at …</div><div class="czh">动词+介词的搭配</div><div class="cstatus"></div></div></div></section>
+    <section class="ch-sec" id="ch-phrasal"><div class="ch-head"><span class="ch-no">CHAPTER 21</span><div><span class="ch-title">Phrasal Verbs</span><span class="ch-zh">短语动词</span></div></div><div class="cards-grid"><div class="gcard" data-id="114"><div class="cnum">UNIT 114</div><div class="cformula">go in / fall off / run away</div><div class="czh">短语动词（1）不可分</div><div class="cstatus"></div></div><div class="gcard" data-id="115"><div class="cnum">UNIT 115</div><div class="cformula">put on your shoes / put your shoes on</div><div class="czh">短语动词（2）可分</div><div class="cstatus"></div></div></div></section>
+
+  </div><!-- idx-body -->
+
+  <footer class="idx-footer">ENGLISH GRAMMAR BASICS · 英语语法初级 · 115 UNITS · &copy; 2026</footer>
+
+</div><!-- screen-index -->
+
+
+<!-- ╔══════════════════════════════════════════╗
+     ║  SCREEN 2 — UNIT 1                      ║
+     ╚══════════════════════════════════════════╝ -->
+<div class="screen" id="screen-u1">
+
+  <div class="unit-topbar">
+    <div class="utop-left">
+      <span class="back-btn" onclick="goIndex()">← 返回目录</span>
+      <div class="utop-div"></div>
+      <div class="unit-badge">UNIT 01</div>
+      <div class="utop-title"><em>am</em> / <em>is</em> / <em>are</em></div>
+    </div>
+    <div class="tab-btns">
+      <button class="tab-btn active" id="u1-tab-learn"   onclick="switchUTab('learn')">📖 学习</button>
+      <button class="tab-btn"        id="u1-tab-exercise" onclick="switchUTab('exercise')">✏️ 练习</button>
+    </div>
+  </div>
+
+  <!-- ── LEARN ── -->
+  <div class="upage active" id="u1-learn">
+
+    <div class="sec-lbl"><span class="sbadge">A</span><span class="stitle">情境导入 · 认识 Lisa</span></div>
+    <div class="lisa-card">
+      <div class="lisa-grid">
+        <div class="bubble">My name <strong>is</strong> Lisa.</div>
+        <div class="bubble"><strong>I'm</strong> 22.</div>
+        <div class="bubble"><strong>I'm not</strong> married.</div>
+        <div class="bubble"><strong>I'm</strong> American. <strong>I'm</strong> from Chicago.</div>
+        <div class="bubble">My favourite colour <strong>is</strong> blue.</div>
+        <div class="bubble"><strong>I'm</strong> a student.</div>
+        <div class="bubble">My favourite sports <strong>are</strong> football and swimming.</div>
+        <div class="bubble">My father <strong>is</strong> a doctor and my mother <strong>is</strong> a journalist.</div>
+        <div class="bubble"><strong>I'm</strong> interested in art.</div>
+      </div>
+      <div class="lisa-name">— LISA —</div>
+    </div>
+
+    <div class="sec-lbl"><span class="sbadge b">B</span><span class="stitle">语法规则 · 肯定式与否定式</span></div>
+    <div class="gram-card">
+      <div class="gram-hd">am / is / are <span>be 动词现在时完整变化表</span></div>
+      <div class="gram-cols">
+        <div class="gram-col">
+          <div class="col-sub">AFFIRMATIVE · 肯定式</div>
+          <table class="gt">
+            <tr><td class="pr">I</td><td class="vb">am</td><td class="ct">(I'm)</td></tr>
+            <tr><td class="pr">he/she/it</td><td class="vb">is</td><td class="ct">(he's / she's / it's)</td></tr>
+            <tr><td class="pr">we/you/they</td><td class="vb">are</td><td class="ct">(we're / you're / they're)</td></tr>
+          </table>
+        </div>
+        <div class="gram-col">
+          <div class="col-sub">NEGATIVE · 否定式</div>
+          <table class="gt">
+            <tr><td class="pr">I</td><td class="nf">am not</td><td class="ns">(I'm not)</td></tr>
+            <tr><td class="pr">he/she/it</td><td class="nf">is not</td><td class="ns">(isn't / he's not…)</td></tr>
+            <tr><td class="pr">we/you/they</td><td class="nf">are not</td><td class="ns">(aren't / we're not…)</td></tr>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="ex-card">
+      <ul class="exl">
+        <li><strong>I'm</strong> cold. Can you close the window, please?</li>
+        <li><strong>I'm</strong> 32 years old. My sister <strong>is</strong> 29.</li>
+        <li>Steve <strong>is</strong> ill. He<strong>'s</strong> in bed.</li>
+        <li>My brother <strong>is</strong> afraid of dogs.</li>
+        <li>It<strong>'s</strong> ten o'clock. You<strong>'re</strong> late again.</li>
+        <li>Ann and I <strong>are</strong> good friends.</li>
+        <li>Your keys <strong>are</strong> on the table.</li>
+        <li class="neg"><strong>I'm</strong> tired, but <strong>I'm not</strong> hungry.</li>
+        <li class="neg">Tom <strong>isn't</strong> interested in politics. He<strong>'s</strong> interested in music.</li>
+        <li class="neg">Jane <strong>isn't</strong> a teacher. She<strong>'s</strong> a student.</li>
+        <li class="neg">Those people <strong>aren't</strong> English. They<strong>'re</strong> Australian.</li>
+        <li class="neg">It<strong>'s</strong> sunny today, but it <strong>isn't</strong> warm.</li>
+      </ul>
+    </div>
+
+    <div class="sec-lbl"><span class="sbadge c">C</span><span class="stitle">特殊缩略 · that's / there's / here's</span></div>
+    <div class="special">
+      <div class="sp-title">CONTRACTIONS · 缩略形式</div>
+      <div class="eq-row">
+        <div class="eq"><span class="fr">that is</span><span class="ar">→</span><span class="to">that's</span></div>
+        <div class="eq"><span class="fr">there is</span><span class="ar">→</span><span class="to">there's</span></div>
+        <div class="eq"><span class="fr">here is</span><span class="ar">→</span><span class="to">here's</span></div>
+      </div>
+      <ul class="sp-ex">
+        <li>□ Thank you. <strong>That's</strong> very kind of you.</li>
+        <li>□ Look! <strong>There's</strong> Chris.</li>
+        <li>□ '<strong>Here's</strong> your key.' 'Thank you.'</li>
+      </ul>
+    </div>
+
+    <div class="related">→ am/is/are 疑问句 Unit 2 &nbsp;·&nbsp; there is/are Unit 37 &nbsp;·&nbsp; a/an Unit 65 &nbsp;·&nbsp; 缩略形式 附录4</div>
+  </div>
+
+  <!-- ── EXERCISE ── -->
+  <div class="upage" id="u1-exercise">
+    <div class="exhdr">
+      <div class="extitle">Exercises · Unit 1</div>
+    </div>
+
+    <!-- 1.1 -->
+    <div class="exblock">
+      <div class="exb-hd"><span class="exn">1.1</span><span class="exinstr">写出<strong>缩略形式</strong>（she's / we aren't 等）</span></div>
+      <div class="exi"><span class="ino">1</span><span>she is →</span><input class="bl bl-sm" data-ans="she's" placeholder="___"><button class="chk-btn" onclick="chk(this)">检查</button><span class="fb"><span class="ico"></span><span class="ans-txt"></span></span></div>
+      <div class="exi"><span class="ino">2</span><span>they are →</span><input class="bl bl-sm" data-ans="they're" placeholder="___"><button class="chk-btn" onclick="chk(this)">检查</button><span class="fb"><span class="ico"></span><span class="ans-txt"></span></span></div>
+      <div class="exi"><span class="ino">3</span><span>it is not →</span><input class="bl" data-ans="it isn't|it's not" data-display="it isn't / it's not" placeholder="___"><button class="chk-btn" onclick="chk(this)">检查</button><span class="fb"><span class="ico"></span><span class="ans-txt"></span></span></div>
+      <div class="exi"><span class="ino">4</span><span>that is →</span><input class="bl bl-sm" data-ans="that's" placeholder="___"><button class="chk-btn" onclick="chk(this)">检查</button><span class="fb"><span class="ico"></span><span class="ans-txt"></span></span></div>
+      <div class="exi"><span class="ino">5</span><span>I am not →</span><input class="bl" data-ans="i'm not" data-display="I'm not" placeholder="___"><button class="chk-btn" onclick="chk(this)">检查</button><span class="fb"><span class="ico"></span><span class="ans-txt"></span></span></div>
+      <div class="exi"><span class="ino">6</span><span>you are not →</span><input class="bl" data-ans="you aren't|you're not" data-display="you aren't / you're not" placeholder="___"><button class="chk-btn" onclick="chk(this)">检查</button><span class="fb"><span class="ico"></span><span class="ans-txt"></span></span></div>
+    </div>
+
+    <!-- 1.2 -->
+    <div class="exblock">
+      <div class="exb-hd"><span class="exn">1.2</span><span class="exinstr">填入 <strong>am、is</strong> 或 <strong>are</strong></span></div>
+      <div class="exi"><span class="ino">1</span><span>The weather</span><input class="bl bl-sm" data-ans="is" placeholder="___"><span>nice today.</span><button class="chk-btn" onclick="chk(this)">检查</button><span class="fb"><span class="ico"></span><span class="ans-txt"></span></span></div>
+      <div class="exi"><span class="ino">2</span><span>I</span><input class="bl bl-sm" data-ans="am" placeholder="___"><span>not rich.</span><button class="chk-btn" onclick="chk(this)">检查</button><span class="fb"><span class="ico"></span><span class="ans-txt"></span></span></div>
+      <div class="exi"><span class="ino">3</span><span>This bag</span><input class="bl bl-sm" data-ans="is" placeholder="___"><span>heavy.</span><button class="chk-btn" onclick="chk(this)">检查</button><span class="fb"><span class="ico"></span><span class="ans-txt"></span></span></div>
+      <div class="exi"><span class="ino">4</span><span>These bags</span><input class="bl bl-sm" data-ans="are" placeholder="___"><span>heavy.</span><button class="chk-btn" onclick="chk(this)">检查</button><span class="fb"><span class="ico"></span><span class="ans-txt"></span></span></div>
+      <div class="exi"><span class="ino">5</span><span>Look! There</span><input class="bl bl-sm" data-ans="is" placeholder="___"><span>Carol.</span><button class="chk-btn" onclick="chk(this)">检查</button><span class="fb"><span class="ico"></span><span class="ans-txt"></span></span></div>
+      <div class="exi"><span class="ino">6</span><span>My brother and I</span><input class="bl bl-sm" data-ans="are" placeholder="___"><span>good tennis players.</span><button class="chk-btn" onclick="chk(this)">检查</button><span class="fb"><span class="ico"></span><span class="ans-txt"></span></span></div>
+      <div class="exi"><span class="ino">7</span><span>Emily</span><input class="bl bl-sm" data-ans="is" placeholder="___"><span>at home. Her children</span><input class="bl bl-sm" data-ans="are" placeholder="___"><span>at school.</span><button class="chk-btn" onclick="chkRow(this)">检查</button><span class="fb"><span class="ico"></span><span class="ans-txt"></span></span></div>
+      <div class="exi"><span class="ino">8</span><span>I</span><input class="bl bl-sm" data-ans="am" placeholder="___"><span>a taxi driver. My sister</span><input class="bl bl-sm" data-ans="is" placeholder="___"><span>a nurse.</span><button class="chk-btn" onclick="chkRow(this)">检查</button><span class="fb"><span class="ico"></span><span class="ans-txt"></span></span></div>
+    </div>
+
+    <!-- 1.3 -->
+    <div class="exblock">
+      <div class="exb-hd"><span class="exn">1.3</span><span class="exinstr"><strong>完成下列句子</strong></span></div>
+      <div class="exi"><span class="ino">1</span><span>Steve is ill.</span><input class="bl" data-ans="he's" data-display="He's" placeholder="___"><span>in bed.</span><button class="chk-btn" onclick="chk(this)">检查</button><span class="fb"><span class="ico"></span><span class="ans-txt"></span></span></div>
+      <div class="exi"><span class="ino">2</span><span>I'm not hungry, but</span><input class="bl" data-ans="i'm" data-display="I'm" placeholder="___"><span>thirsty.</span><button class="chk-btn" onclick="chk(this)">检查</button><span class="fb"><span class="ico"></span><span class="ans-txt"></span></span></div>
+      <div class="exi"><span class="ino">3</span><span>Mr Thomas is a very old man.</span><input class="bl bl-sm" data-ans="he's" data-display="He's" placeholder="___"><span>98.</span><button class="chk-btn" onclick="chk(this)">检查</button><span class="fb"><span class="ico"></span><span class="ans-txt"></span></span></div>
+      <div class="exi"><span class="ino">4</span><span>These chairs aren't beautiful, but</span><input class="bl" data-ans="they're" data-display="they're" placeholder="___"><span>comfortable.</span><button class="chk-btn" onclick="chk(this)">检查</button><span class="fb"><span class="ico"></span><span class="ans-txt"></span></span></div>
+      <div class="exi"><span class="ino">5</span><span>The weather is nice today.</span><input class="bl" data-ans="it's" data-display="It's" placeholder="___"><span>warm and sunny.</span><button class="chk-btn" onclick="chk(this)">检查</button><span class="fb"><span class="ico"></span><span class="ans-txt"></span></span></div>
+      <div class="exi"><span class="ino">6</span><input class="bl bl-sm" data-ans="you're|you are" data-display="You're" placeholder="___"><span>late.' 'No, I'm not. I'm early!'</span><button class="chk-btn" onclick="chk(this)">检查</button><span class="fb"><span class="ico"></span><span class="ans-txt"></span></span></div>
+      <div class="exi"><span class="ino">7</span><span>Catherine isn't at home.</span><input class="bl" data-ans="she's" data-display="She's" placeholder="___"><span>at work.</span><button class="chk-btn" onclick="chk(this)">检查</button><span class="fb"><span class="ico"></span><span class="ans-txt"></span></span></div>
+      <div class="exi"><span class="ino">8</span><input class="bl" data-ans="here's|here is" data-display="Here's" placeholder="___"><span>your coat.' 'Oh, thank you very much.'</span><button class="chk-btn" onclick="chk(this)">检查</button><span class="fb"><span class="ico"></span><span class="ans-txt"></span></span></div>
+    </div>
+
+    <!-- 1.4 -->
+    <div class="exblock">
+      <div class="exb-hd"><span class="exn">1.4</span><span class="exinstr">参看 Lisa 的句子，<strong>写写你自己的情况</strong></span></div>
+      <div class="self-grid">
+        <div><div class="self-lbl">1. (name?) My …</div><textarea class="self-ta" id="s1" placeholder="My name is ..."></textarea></div>
+        <div><div class="self-lbl">5. (favourite colour?) My …</div><textarea class="self-ta" id="s5" placeholder="My favourite colour is ..."></textarea></div>
+        <div><div class="self-lbl">2. (from?) I …</div><textarea class="self-ta" id="s2" placeholder="I'm from ..."></textarea></div>
+        <div><div class="self-lbl">6. (interested in …?) I …</div><textarea class="self-ta" id="s6" placeholder="I'm interested in ..."></textarea></div>
+        <div><div class="self-lbl">3. (age?) I …</div><textarea class="self-ta" id="s3" placeholder="I'm ..."></textarea></div>
+        <div><div class="self-lbl">4. (job?) I …</div><textarea class="self-ta" id="s4" placeholder="I'm a ..."></textarea></div>
+      </div>
+      <button class="save-btn" onclick="savePersonal()">保存回答</button>
+    </div>
+
+    <!-- 1.5 -->
+    <div class="exblock">
+      <div class="exb-hd"><span class="exn">1.5</span><span class="exinstr">根据词语造句（afraid / angry / cold / hot / hungry / thirsty）</span></div>
+      <div style="display:flex;flex-wrap:wrap;gap:.4rem;margin-bottom:.8rem;">
+        <span class="chip">afraid</span><span class="chip">angry</span><span class="chip">cold</span>
+        <span class="chip">hot</span><span class="chip">hungry</span><span class="chip s">thirsty</span>
+      </div>
+      <div class="exi"><span class="ino">1</span><span>She's thirsty.</span><span style="font-size:.72rem;color:var(--green);margin-left:.4rem;">（已给出）</span></div>
+      <div class="exi"><span class="ino">2</span><span>They</span><input class="bl bl-lg" data-ans="they're cold|they are cold" data-display="They're cold." placeholder="____"><button class="chk-btn" onclick="chk(this)">检查</button><span class="fb"><span class="ico"></span><span class="ans-txt"></span></span></div>
+      <div class="exi"><span class="ino">3</span><span>He</span><input class="bl bl-lg" data-ans="he's hot|he is hot" data-display="He's hot." placeholder="____"><button class="chk-btn" onclick="chk(this)">检查</button><span class="fb"><span class="ico"></span><span class="ans-txt"></span></span></div>
+      <div class="exi"><span class="ino">4</span><input class="bl bl-lg" data-ans="she's angry|she is angry" data-display="She's angry." placeholder="____"><button class="chk-btn" onclick="chk(this)">检查</button><span class="fb"><span class="ico"></span><span class="ans-txt"></span></span></div>
+      <div class="exi"><span class="ino">5</span><input class="bl bl-lg" data-ans="he's hungry|he is hungry" data-display="He's hungry." placeholder="____"><button class="chk-btn" onclick="chk(this)">检查</button><span class="fb"><span class="ico"></span><span class="ans-txt"></span></span></div>
+      <div class="exi"><span class="ino">6</span><input class="bl bl-lg" data-ans="she's afraid|she is afraid" data-display="She's afraid." placeholder="____"><button class="chk-btn" onclick="chk(this)">检查</button><span class="fb"><span class="ico"></span><span class="ans-txt"></span></span></div>
+    </div>
+
+    <!-- 1.6 -->
+    <div class="exblock">
+      <div class="exb-hd"><span class="exn">1.6</span><span class="exinstr">根据真实情况，用 <strong>is/isn't</strong> 或 <strong>are/aren't</strong> 写出句子</span></div>
+      <p style="font-size:.76rem;color:var(--muted);margin-bottom:.7rem;">例：(it / hot today) → It isn't hot today. 或 It's hot today.</p>
+      <div class="ori"><span class="ino">2</span><span>(it / windy today) It</span><input class="bl" id="f16-2" data-free="true" placeholder="___"><span>today.</span></div>
+      <div class="ori"><span class="ino">3</span><span>(my hands / cold) My hands</span><input class="bl bl-lg" id="f16-3" data-free="true" placeholder="___"></div>
+      <div class="ori"><span class="ino">4</span><span>(Brazil / a very big country) Brazil</span><input class="bl bl-lg" data-ans="is a very big country" data-display="is a very big country" placeholder="___"><button class="chk-btn" onclick="chk(this)">检查</button><span class="fb"><span class="ico"></span><span class="ans-txt"></span></span></div>
+      <div class="ori"><span class="ino">5</span><span>(diamonds / cheap) Diamonds</span><input class="bl bl-lg" data-ans="aren't cheap|are not cheap" data-display="aren't cheap" placeholder="___"><button class="chk-btn" onclick="chk(this)">检查</button><span class="fb"><span class="ico"></span><span class="ans-txt"></span></span></div>
+      <div class="ori"><span class="ino">6</span><span>(Toronto / in the US) Toronto</span><input class="bl bl-lg" data-ans="isn't in the us|is not in the us" data-display="isn't in the US" placeholder="___"><button class="chk-btn" onclick="chk(this)">检查</button><span class="fb"><span class="ico"></span><span class="ans-txt"></span></span></div>
+      <p style="font-size:.76rem;color:var(--muted);margin:.8rem 0 .5rem;">根据真实情况，用 <strong>I'm / I'm not</strong> 写出句子</p>
+      <div class="ori"><span class="ino">7</span><span>(tired)</span><input class="bl bl-lg" id="f16-7" data-free="true" placeholder="I'm tired. / I'm not tired."></div>
+      <div class="ori"><span class="ino">8</span><span>(hungry)</span><input class="bl bl-lg" id="f16-8" data-free="true" placeholder="I'm / I'm not ..."></div>
+      <div class="ori"><span class="ino">9</span><span>(a good swimmer)</span><input class="bl bl-lg" id="f16-9" data-free="true" placeholder="I'm / I'm not ..."></div>
+      <div class="ori"><span class="ino">10</span><span>(interested in football)</span><input class="bl bl-lg" id="f16-10" data-free="true" placeholder="I'm / I'm not ..."></div>
+      <div style="margin-top:1rem;">
+        <button class="save-btn" onclick="save16()">保存回答</button>
+      </div>
+    </div>
+
+    <!-- English Diary -->
+    <div class="exblock">
+      <div class="exb-hd">
+        <span class="exn">Diary</span>
+        <span class="exinstr"><strong>English Diary</strong> &nbsp;·&nbsp; 英语日记</span>
+      </div>
+      <p style="font-size:.8rem;color:var(--muted);margin-bottom:.9rem;">
+        尝试写一篇简短的英语日记或分享短文吧~
+      </p>
+      <textarea id="diary" placeholder="Dear Diary,&#10;&#10;Today I am ..." style="
+        width:100%; min-height:160px; border:1px solid var(--border);
+        border-radius:6px; padding:.9rem 1rem;
+        font-family:'Lora',serif; font-size:.95rem; line-height:1.8;
+        color:var(--ink); background:var(--cream);
+        resize:vertical; outline:none; transition:border-color .2s;"
+        onfocus="this.style.borderColor='var(--blue)'"
+        onblur="this.style.borderColor='var(--border)'"></textarea>
+      <div style="margin-top:.7rem;">
+        <button class="save-btn" onclick="saveDiary()">保存回答</button>
+      </div>
+    </div>
+
+    <div style="display:flex;align-items:center;gap:.8rem;margin-top:.8rem;flex-wrap:wrap;">
+      <div style="display:flex;align-items:center;gap:.5rem;">
+        <label style="font-size:.84rem;color:var(--muted);white-space:nowrap;">学生姓名</label>
+        <input id="student-name" type="text" placeholder="请输入姓名…"
+          style="border:none;border-bottom:2px solid var(--border);background:transparent;
+                 font-family:'Playfair Display',serif;font-size:.92rem;color:var(--ink);
+                 padding:.1rem .4rem;outline:none;width:130px;transition:border-color .2s;"
+          onfocus="this.style.borderColor='var(--blue)'"
+          onblur="this.style.borderColor='var(--border)'">
+      </div>
+      <button class="check-btn" id="submit-btn" onclick="submitAll()">提交</button>
+      <button class="reset-btn" onclick="resetAll()">重置</button>
+    </div>
+  </div><!-- u1-exercise -->
+
+</div><!-- screen-u1 -->
+
+<!-- ══ 截图预览遮罩 ══ -->
+<div id="preview-overlay" style="
+  display:none; position:fixed; inset:0; background:rgba(26,20,16,.7);
+  z-index:2000; align-items:center; justify-content:center; padding:1.5rem;">
+  <div style="background:#fff; border-radius:10px; max-width:520px; width:100%;
+              box-shadow:0 20px 60px rgba(0,0,0,.35); overflow:hidden;">
+    <div style="background:var(--ink); color:#f5f0e8; padding:.9rem 1.4rem;
+                display:flex; justify-content:space-between; align-items:center;">
+      <div style="display:flex; align-items:center; gap:1rem;">
+        <button onclick="downloadSummary()" style="
+          background:var(--rust); color:#fff; border:none; border-radius:3px;
+          padding:.35rem 1rem; font-size:.8rem; font-family:'Noto Sans SC',sans-serif;
+          cursor:pointer;">下载图片</button>
+        <span style="font-size:.82rem; color:rgba(255,255,255,.6);
+                     font-family:'Noto Sans SC',sans-serif;">
+          📸 将截图保存发送给你的老师
+        </span>
+      </div>
+      <button onclick="closePreview()" style="
+        background:transparent; color:rgba(255,255,255,.6); border:1px solid rgba(255,255,255,.2);
+        border-radius:3px; padding:.35rem .7rem; font-size:.9rem; cursor:pointer;">✕</button>
+    </div>
+    <div style="padding:1.2rem; max-height:70vh; overflow-y:auto;">
+      <div id="summary-card" style="
+        background:#fff; border-radius:8px; padding:2rem 2.2rem;
+        font-family:'Noto Sans SC',sans-serif;">
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<script>
+/* ════════════════════════════════════════
+   ROUTING
+════════════════════════════════════════ */
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo(0, 0);
+}
+
+function openUnit(id) {
+  if (id === 'u1') showScreen('screen-u1');
+}
+
+function goIndex() {
+  showScreen('screen-index');
+}
+
+/* ════════════════════════════════════════
+   INDEX — chapter nav
+════════════════════════════════════════ */
+const chMap = {
+  present:'ch-present', past:'ch-past', perfect:'ch-perfect',
+  passive:'ch-passive', verbforms:'ch-verbforms', future:'ch-future',
+  modal:'ch-modal', thereit:'ch-thereit', auxiliary:'ch-auxiliary',
+  questions:'ch-questions', indirect:'ch-indirect', infinitive:'ch-infinitive',
+  goget:'ch-goget', pronouns:'ch-pronouns', articles:'ch-articles',
+  determiners:'ch-determiners', adjadv:'ch-adjadv', wordorder:'ch-wordorder',
+  conjunctions:'ch-conjunctions', prepositions:'ch-prepositions', phrasal:'ch-phrasal',
+};
+
+function showChapter(key) {
+  document.querySelectorAll('.ch-sec').forEach(s => s.classList.remove('visible'));
+  document.querySelectorAll('.ch-btn').forEach(b => b.classList.remove('active'));
+  const sec = document.getElementById(chMap[key]);
+  if (sec) sec.classList.add('visible');
+  document.querySelectorAll('.ch-btn').forEach(b => {
+    if (b.getAttribute('onclick') === `showChapter('${key}')`) b.classList.add('active');
+  });
+}
+
+/* ════════════════════════════════════════
+   INDEX — progress
+════════════════════════════════════════ */
+const stored = JSON.parse(localStorage.getItem('grammar-progress') || '{}');
+
+function updateProgress() {
+  const done = Object.values(stored).filter(Boolean).length;
+  document.getElementById('doneCount').textContent = done;
+  document.getElementById('progFill').style.width = (done / 115 * 100) + '%';
+}
+
+document.querySelectorAll('.gcard[data-id]').forEach(card => {
+  const id = card.dataset.id;
+  if (stored[id]) { card.querySelector('.cstatus').classList.add('done'); card.style.opacity = '.7'; }
+  card.addEventListener('click', () => {
+    stored[id] = !stored[id];
+    localStorage.setItem('grammar-progress', JSON.stringify(stored));
+    const dot = card.querySelector('.cstatus');
+    if (stored[id]) { dot.classList.add('done'); card.style.opacity = '.7'; }
+    else             { dot.classList.remove('done'); card.style.opacity = '1'; }
+    updateProgress();
+  });
+});
+
+updateProgress();
+
+/* ════════════════════════════════════════
+   UNIT 1 — tab switch
+════════════════════════════════════════ */
+function switchUTab(tab) {
+  document.querySelectorAll('.upage').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('u1-' + tab).classList.add('active');
+  document.getElementById('u1-tab-' + tab).classList.add('active');
+  window.scrollTo(0, 0);
+}
+
+/* ════════════════════════════════════════
+   UNIT 1 — exercises
+════════════════════════════════════════ */
+function norm(s) {
+  return s.trim().toLowerCase().replace(/['']/g, "'").replace(/\s+/g, ' ');
+}
+
+/* Check a single input, return true/false */
+function checkInput(inp) {
+  if (inp.dataset.free === 'true') return null;
+  const accepted = (inp.dataset.ans || '').split('|').map(norm);
+  const ok = accepted.includes(norm(inp.value));
+  inp.classList.toggle('ok', ok);
+  inp.classList.toggle('bad', !ok);
+  return ok;
+}
+
+/* Single-input row: button is right after ONE input */
+function chk(btn) {
+  const row = btn.closest('.exi, .ori');
+  const inp = row.querySelector('.bl');
+  const fb  = row.querySelector('.fb');
+  const ok  = checkInput(inp);
+  if (ok === null) return;
+  showFb(fb, ok, inp);
+  updateScore();
+}
+
+/* Multi-input row (1.2 items 7&8): all inputs must be correct */
+function chkRow(btn) {
+  const row  = btn.closest('.exi, .ori');
+  const inps = [...row.querySelectorAll('.bl')];
+  const fb   = row.querySelector('.fb');
+  const results = inps.map(checkInput);
+  const allOk = results.every(r => r === true);
+  // build display string for wrong answer
+  const display = inps.map(i => {
+    const d = i.dataset.display || (i.dataset.ans||'').split('|')[0];
+    return d;
+  }).join(' / ');
+  showFb(fb, allOk, null, allOk ? '' : display);
+  updateScore();
+}
+
+function showFb(fb, ok, inp, overrideDisplay) {
+  fb.classList.add('show');
+  const ico = fb.querySelector('.ico');
+  const txt = fb.querySelector('.ans-txt');
+  if (ok) {
+    ico.textContent = '✅';
+    txt.textContent = '';
+    txt.style.display = 'none';
+  } else {
+    ico.textContent = '❌';
+    // show correct answer
+    let display = overrideDisplay;
+    if (display === undefined && inp) {
+      display = inp.dataset.display || (inp.dataset.ans || '').split('|')[0];
+    }
+    txt.textContent = display ? '→ ' + display : '';
+    txt.style.display = display ? 'inline' : 'none';
+  }
+}
+
+function updateScore() {}
+
+function submitAll() {
+  // 1. 验证姓名
+  const nameEl = document.getElementById('student-name');
+  const studentName = nameEl ? nameEl.value.trim() : '';
+  if (!studentName) {
+    nameEl.style.borderColor = 'var(--rust)';
+    nameEl.focus();
+    return;
+  }
+
+  // 2. 检查所有有答案的题
+  document.querySelectorAll('#u1-exercise .chk-btn').forEach(btn => btn.click());
+
+  // 3. 锁定输入
+  document.querySelectorAll('#u1-exercise .bl').forEach(inp => inp.disabled = true);
+  document.querySelectorAll('#u1-exercise .chk-btn').forEach(btn => btn.disabled = true);
+  if (nameEl) nameEl.disabled = true;
+  const submitBtn = document.getElementById('submit-btn');
+  if (submitBtn) submitBtn.disabled = true;
+  const diaryEl = document.getElementById('diary');
+  if (diaryEl) diaryEl.disabled = true;
+
+  // 4. 收集开放题内容
+  const items14 = [
+    { label: '1. (name?) My …',             id: 's1' },
+    { label: '2. (from?) I …',              id: 's2' },
+    { label: '3. (age?) I …',               id: 's3' },
+    { label: '4. (job?) I …',               id: 's4' },
+    { label: '5. (favourite colour?) My …', id: 's5' },
+    { label: '6. (interested in …?) I …',   id: 's6' },
+  ];
+  const items16 = [
+    { label: '(it / windy today) It ___ today.',  id: 'f16-2' },
+    { label: '(my hands / cold) My hands ___.',   id: 'f16-3' },
+    { label: '(tired)',                            id: 'f16-7' },
+    { label: '(hungry)',                           id: 'f16-8' },
+    { label: '(a good swimmer)',                   id: 'f16-9' },
+    { label: '(interested in football)',           id: 'f16-10' },
+  ];
+
+  // 5. 构建 summary card HTML
+  const time = new Date().toLocaleString('zh-CN');
+  const diaryVal = document.getElementById('diary')?.value.trim() || '（未填写）';
+
+  function renderRows(items) {
+    return items.map(({ label, id }) => {
+      const val = (document.getElementById(id)?.value.trim()) || '（未填写）';
+      return `
+        <div style="margin-bottom:1rem;">
+          <div style="font-size:.78rem;color:#8a7a6a;margin-bottom:.3rem;">${label}</div>
+          <div style="font-size:.92rem;color:#1a1410;background:#f5f0e8;
+                      border-radius:4px;padding:.45rem .7rem;min-height:2rem;
+                      line-height:1.6;">${val}</div>
+        </div>`;
+    }).join('');
+  }
+
+  document.getElementById('summary-card').innerHTML = `
+    <div style="text-align:center;margin-bottom:1.6rem;padding-bottom:1.2rem;
+                border-bottom:2px solid #1a1410;">
+      <div style="font-family:'JetBrains Mono',monospace;font-size:.65rem;
+                  letter-spacing:.18em;color:#8a7a6a;margin-bottom:.4rem;">
+        UNIT 01 · am / is / are · 英语语法初级
+      </div>
+      <div style="font-size:1.6rem;font-weight:700;color:#1a1410;margin-bottom:.2rem;">
+        ${studentName}
+      </div>
+      <div style="font-size:.75rem;color:#8a7a6a;font-family:'JetBrains Mono',monospace;">
+        ${time}
+      </div>
+    </div>
+
+    <div style="margin-bottom:1.4rem;">
+      <div style="font-size:.7rem;font-family:'JetBrains Mono',monospace;
+                  letter-spacing:.14em;color:#fff;background:#1a1410;
+                  padding:.25rem .7rem;border-radius:3px;display:inline-block;margin-bottom:.9rem;">
+        1.4 写写你自己的情况
+      </div>
+      ${renderRows(items14)}
+    </div>
+
+    <div>
+      <div style="font-size:.7rem;font-family:'JetBrains Mono',monospace;
+                  letter-spacing:.14em;color:#fff;background:#1a1410;
+                  padding:.25rem .7rem;border-radius:3px;display:inline-block;margin-bottom:.9rem;">
+        1.6 开放题回答
+      </div>
+      ${renderRows(items16)}
+    </div>
+
+    <div style="margin-top:1.4rem;">
+      <div style="font-size:.7rem;font-family:'JetBrains Mono',monospace;
+                  letter-spacing:.14em;color:#fff;background:#c0440a;
+                  padding:.25rem .7rem;border-radius:3px;display:inline-block;margin-bottom:.9rem;">
+        English Diary · 英语日记
+      </div>
+      <div style="font-size:.92rem;color:#1a1410;background:#f5f0e8;
+                  border-radius:4px;padding:.7rem .9rem;line-height:1.8;
+                  white-space:pre-wrap;">${diaryVal}</div>
+    </div>`;
+
+  // 6. 显示预览遮罩
+  const overlay = document.getElementById('preview-overlay');
+  overlay.style.display = 'flex';
+}
+
+async function downloadSummary() {
+  const btn = document.querySelector('[onclick="downloadSummary()"]');
+  if (btn) { btn.textContent = '生成中…'; btn.disabled = true; }
+
+  const card = document.getElementById('summary-card');
+  const canvas = await html2canvas(card, {
+    scale: 2,
+    backgroundColor: '#ffffff',
+    useCORS: true,
+  });
+
+  const dataUrl = canvas.toDataURL('image/png');
+  const name = document.getElementById('student-name')?.value.trim() || 'summary';
+  const filename = `${name}_Unit1_答案总结.png`;
+
+  // 判断是否手机端
+  const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+
+  if (isMobile) {
+    // 手机：在新页面打开图片，用户长按保存
+    const win = window.open('', '_blank');
+    win.document.write(`
+      <html><head><meta name="viewport" content="width=device-width,initial-scale=1">
+      <title>${filename}</title>
+      <style>body{margin:0;background:#111;display:flex;flex-direction:column;
+        align-items:center;justify-content:center;min-height:100vh;gap:1rem;}
+        img{max-width:100%;border-radius:6px;}
+        p{color:#fff;font-size:14px;font-family:sans-serif;text-align:center;padding:0 1rem;}</style>
+      </head><body>
+      <p>长按图片 → 保存到相册</p>
+      <img src="${dataUrl}" alt="答案总结">
+      </body></html>`);
+    win.document.close();
+  } else {
+    // 电脑：直接下载
+    const link = document.createElement('a');
+    link.download = filename;
+    link.href = dataUrl;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  }
+
+  if (btn) { btn.textContent = '下载图片'; btn.disabled = false; }
+}
+
+function closePreview() {
+  document.getElementById('preview-overlay').style.display = 'none';
+}
+
+function resetAll() {
+  document.querySelectorAll('#u1-exercise .bl').forEach(inp => {
+    inp.value = '';
+    inp.classList.remove('ok', 'bad');
+    inp.disabled = false;
+  });
+  document.querySelectorAll('#u1-exercise .chk-btn').forEach(btn => btn.disabled = false);
+  document.querySelectorAll('#u1-exercise .fb').forEach(fb => {
+    fb.classList.remove('show');
+    fb.querySelector('.ico').textContent = '';
+    fb.querySelector('.ans-txt').textContent = '';
+  });
+  const name = document.getElementById('student-name');
+  if (name) { name.disabled = false; name.value = ''; name.style.borderColor = 'var(--border)'; }
+  const submitBtn = document.getElementById('submit-btn');
+  if (submitBtn) submitBtn.disabled = false;
+  const diary = document.getElementById('diary');
+  if (diary) { diary.value = ''; diary.disabled = false; }
+  // reset all save buttons
+  document.querySelectorAll('#u1-exercise .save-btn').forEach(btn => {
+    btn.textContent = '保存回答';
+    btn.style.background = 'var(--blue)';
+  });
+  closePreview();
+}
+
+function saveDiary() {
+  const el = document.getElementById('diary');
+  if (el) localStorage.setItem('unit1-diary', el.value);
+  flashSaved('sv-diary');
+}
+
+function savePersonal() {
+  const d = {};
+  [1,2,3,4,5,6].forEach(n => { const el = document.getElementById('s'+n); if(el) d['s'+n] = el.value; });
+  localStorage.setItem('unit1-personal', JSON.stringify(d));
+  flashSaved('savedMsg');
+}
+
+function save16() {
+  const ids = ['f16-2','f16-3','f16-7','f16-8','f16-9','f16-10'];
+  const d = {};
+  ids.forEach(id => { const el = document.getElementById(id); if(el) d[id] = el.value; });
+  localStorage.setItem('unit1-free', JSON.stringify(d));
+  flashSaved('sv16');
+}
+
+function flashSaved(msgId) {
+  // Find the save button that triggered this — look for a button sibling near the msg
+  const msg = document.getElementById(msgId);
+  if (!msg) return;
+  const btn = msg.previousElementSibling;
+  if (btn && btn.classList.contains('save-btn')) {
+    btn.textContent = '已保存';
+    btn.style.background = 'var(--green)';
+  }
+}
+
+// Restore all saved answers on load
+(function() {
+  const personal = JSON.parse(localStorage.getItem('unit1-personal') || '{}');
+  Object.keys(personal).forEach(k => { const el = document.getElementById(k); if(el) el.value = personal[k]; });
+  const free = JSON.parse(localStorage.getItem('unit1-free') || '{}');
+  Object.keys(free).forEach(k => { const el = document.getElementById(k); if(el) el.value = free[k]; });
+  const diary = localStorage.getItem('unit1-diary');
+  if (diary) { const el = document.getElementById('diary'); if(el) el.value = diary; }
+})();
+</script>
+</body>
+</html>
